@@ -39,11 +39,10 @@ class ClapDataset(Dataset):
     
 
 class ClapDataModule(pl.LightningDataModule):
-    def __init__(self, data_config: dict, sliding_window_size : int, dataset, batch_size=32, num_workers=4, split_ratio=0.8):
+    def __init__(self, data_config: dict, sliding_window_size : int, batch_size=32, num_workers=4, split_ratio=0.8):
         super().__init__()
         self.data_config = data_config
         self.sliding_window_size = sliding_window_size
-        self.dataset = dataset
         self.batch_size = batch_size
         self.num_workers = num_workers
         self.split_ratio = split_ratio

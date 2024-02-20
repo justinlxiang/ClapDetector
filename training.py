@@ -65,7 +65,6 @@ if __name__ == "__main__":
     else:
         model = ConvModel(
             model_architecture=args.model,
-            use_echo_profile=args.use_echo_profile,
             **model_cfg[args.model],
         )
 
