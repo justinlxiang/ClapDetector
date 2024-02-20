@@ -1,0 +1,9 @@
+mobilenet_v3:
+  input_channels: 1
+  output_dim: 2
+  representation_dim: 256
+  learning_rate: 1.0e-3
+  loss_function: 'cross-entropy'
+  class_weights: [] # default: [] | [10, 11, 19]
+  lr_scheduler: 'cosine_annealing' # OR 'multistep_lr'
+  # grad_cam_freq: -1 # Grad-CAM does not work for mobilenet right now

@@ -4,6 +4,8 @@ from torch.utils.data import Dataset, DataLoader
 import pytorch_lightning as pl
 import cv2
 from sklearn.model_selection import train_test_split
+import os
+import json
 
 class ClapDataset(Dataset):
     def __init__(self, video_files, labels):
@@ -37,8 +39,10 @@ class ClapDataset(Dataset):
     
 
 class ClapDataModule(pl.LightningDataModule):
-    def __init__(self, dataset, batch_size=32, num_workers=4, split_ratio=0.8):
+    def __init__(self, data_config: dict, sliding_window_size : int, dataset, batch_size=32, num_workers=4, split_ratio=0.8):
         super().__init__()
+        self.data_config = data_config
+        self.sliding_window_size = sliding_window_size
         self.dataset = dataset
         self.batch_size = batch_size
         self.num_workers = num_workers
@@ -79,28 +83,45 @@ class ClapDataModule(pl.LightningDataModule):
 
     def predict_dataloader(self):
         return DataLoader(self.test_dataset, batch_size=self.batch_size, num_workers=self.num_workers)
-    
 
 
 if __name__ == "__main__":
-    # placeholder example input
-    data_dict = {
-        "ground_truth": {
-            "videos": [
-                "record_20230605_121225_158207.mp4",
-                "record_20230605_130703_324246.mp4",
-                "record_20230606_125009_189312.mp4",
-                "record_20230606_131806_228554.mp4"
-            ],
-            "syncing_poses": [
-                213,
-                98,
-                140,
-                91
-            ]
-        }
-    }
 
+    pilot_data_path = "/data2/saif/eating/data/pilot_study"
+    
+    data_dict = {"ground_truth": {"videos": [], "syncing_poses": []}}
+
+    for root, dirs, files in os.walk(pilot_data_path):
+        for file in files:
+            if file == "config.json":
+                config_path = os.path.join(root, file)
+                with open(config_path, 'r') as config_file:
+                    config_data = json.load(config_file)
+                    ground_truth = config_data.get("ground_truth", {})
+                    video_file = ground_truth.get("videos")
+                    syncing_pose = ground_truth.get("syncing_poses")
+                    if video_file and syncing_pose is not None:
+                        data_dict["ground_truth"]["videos"].append(video_file)
+                        data_dict["ground_truth"]["syncing_poses"].append(syncing_pose)
+    
+    # placeholder example input
+    # data_dict = {
+    #     "ground_truth": {
+    #         "videos": [
+    #             "record_20230605_121225_158207.mp4",
+    #             "record_20230605_130703_324246.mp4",
+    #             "record_20230606_125009_189312.mp4",
+    #             "record_20230606_131806_228554.mp4"
+    #         ],
+    #         "syncing_poses": [
+    #             213,
+    #             98,
+    #             140,
+    #             91
+    #         ]
+    #     }
+    # }
+    
     video_files = data_dict["ground_truth"]["videos"]
     labels = data_dict["ground_truth"]["syncing_poses"]
     clap_dataset = ClapDataset(video_files, labels)
