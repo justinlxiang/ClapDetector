@@ -1,0 +1,20 @@
+data_root_dir: ../../data2/saif/eating/data/pilot_study
+
+random_split: true
+
+num_classes: 2
+
+sessions:
+  #pilot_study
+  train: &train_session ['R01', 'R02', 'R02_hand', 'R02_hand_02', 'R02_wild', 'R02_wild_03', 'R02-face', 'R02-face2', 'R03', 'R03-face', 'R03-face2', 'R04-face', 'R04-face2', 'R04-face3', 'R04-hand2']
+  test: #todo
+
+data_file:
+  video: 'reference_video.mp4'
+  video_frames_folder: 'reference_video_frames'
+  frame_time: 'reference_video_frame_time.txt'
+
+session_config: 'config.json'
+
+video_data_reader:
+  fps: 30
