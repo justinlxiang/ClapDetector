@@ -43,3 +43,53 @@ def load_frame_data(data_config, set_type):
     labels_tensor = torch.tensor(labels, dtype=torch.long)
 
     return images_data, labels_tensor
+
+
+def create_frame_session_folders(data_config):
+    data_root_dir = data_config['data_root_dir']
+    participants = data_config['participants']
+    
+    project_root = "./data"
+    if not os.path.exists(project_root):
+        os.mkdir(project_root)
+    
+    for participant_type, participant_list in participants.items():
+        for participant in participant_list:
+            participant_path = os.path.join(project_root, participant_type, participant)
+            config_path = os.path.join(participant_path, "config.json")
+
+            if os.path.exists(config_path):
+                with open(config_path, 'r') as f:
+                    config = json.load(f)
+                    ground_truths = config.get("ground_truth", [])
+                    for i, ground_truth in enumerate(ground_truths):
+                        os.mkdir(project_root, participant, f"session_{i+1:04d}")
+                        session_folder = os.path.join(project_root, participant, f"session_{i+1:04d}")
+
+                        video = ground_truth["video"][i]
+                        syncing_pose = ground_truth["syncing_pose"][i]
+                        
+                        video_path = os.path.join(participant_path, video) 
+                        cap = cv2.VideoCapture(video_path)
+                        frame_count = 0
+                        while True:
+                            ret, frame = cap.read()
+                            if not ret:
+                                break
+                            frame_path = os.path.join(session_folder, f"frame_{frame_count:04d}.jpg")
+                            cv2.imwrite(frame_path, frame)
+                            frame_count += 1
+                        cap.release()
+                        
+                        labels_path = os.path.join(session_folder, "labels.txt")
+                        with open(labels_path, 'w') as labels_file:
+                            frame_files = os.listdir(session_folder)
+                            for frame_index, frame_file in enumerate(frame_files):
+                                label = 1 if frame_index == syncing_pose else 0
+                                labels_file.write(f"{label} {frame_file}\n")
+
+
+if __name__ == "__main__":
+    data_config_file = open("configs/data.yaml", mode="r")
+    data_cfg = yaml.load(data_config_file, Loader=yaml.FullLoader)
+    create_frame_session_folders(data_cfg)

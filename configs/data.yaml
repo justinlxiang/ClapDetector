@@ -5,10 +5,10 @@ random_split: false
 num_classes: 2
 
 participants: 
-  pilot: ['R01', 'R02', 'R02_hand', 'R02_hand_02', 'R02_wild', 
+  pilot_study: ['R01', 'R02', 'R02_hand', 'R02_hand_02', 'R02_wild', 
           'R02_wild_03', 'R02-face', 'R02-face2', 'R03', 'R03-face', 
           'R03-face2', 'R04-face', 'R04-face2', 'R04-face3', 'R04-hand2']
-  user: ['P01', 'P01-wild', 'P03', 'P03-wild', 'P04', 'P05', 'P05-wild', 'P06', 'P06-wild', 'P07', 'P07-wild', 
+  user_study: ['P01', 'P01-wild', 'P03', 'P03-wild', 'P04', 'P05', 'P05-wild', 'P06', 'P06-wild', 'P07', 'P07-wild', 
         'P08', 'P09', 'P09-wild', 'P10', 'P10-wild', 'P11', 'P11-wild', 'P15-wild', 'P16-wild', 'P17-wild', 'P18-wild',
         'R01', 'R02', 'R03' ]
 
