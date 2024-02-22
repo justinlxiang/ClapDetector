@@ -48,45 +48,60 @@ def load_frame_data(data_config, set_type):
 def create_frame_session_folders(data_config):
     data_root_dir = data_config['data_root_dir']
     participants = data_config['participants']
-    
-    project_root = "./data"
-    if not os.path.exists(project_root):
-        os.mkdir(project_root)
-    
+
+    labels_root = "./labels_folder"
+    frames_root = "./frame_folder"
+    if not os.path.exists(labels_root):
+        os.makedirs(labels_root)
+    if not os.path.exists(frames_root):
+        os.makedirs(frames_root)
+
     for participant_type, participant_list in participants.items():
         for participant in participant_list:
-            participant_path = os.path.join(project_root, participant_type, participant)
+            participant_path = os.path.join(data_root_dir, participant_type, participant)
             config_path = os.path.join(participant_path, "config.json")
+            print(participant)
+            os.mkdir(os.path.join(labels_root, participant))
+            os.mkdir(os.path.join(frames_root, participant))
 
+            participant_labels_folder = os.path.join(labels_root, participant)
+            participant_frames_folder = os.path.join(frames_root, participant)
             if os.path.exists(config_path):
                 with open(config_path, 'r') as f:
                     config = json.load(f)
                     ground_truths = config.get("ground_truth", [])
-                    for i, ground_truth in enumerate(ground_truths):
-                        os.mkdir(project_root, participant, f"session_{i+1:04d}")
-                        session_folder = os.path.join(project_root, participant, f"session_{i+1:04d}")
-
-                        video = ground_truth["video"][i]
-                        syncing_pose = ground_truth["syncing_pose"][i]
+                    videos = ground_truths.get("videos", [])
+                    syncing_poses = ground_truths.get("syncing_poses", [])
+                    print(videos, syncing_poses)
+                    for i, syncing_pose in enumerate(syncing_poses):
+                        print("Processing Session " + str(i))
+                        video = videos[i]
                         
+                        os.mkdir(os.path.join(participant_labels_folder, f"session_{i+1:02d}"))
+                        labels_folder = os.path.join(participant_labels_folder, f"session_{i+1:02d}")
+                        
+                        os.mkdir(os.path.join(participant_frames_folder, f"session_{i+1:02d}"))
+                        frames_folder = os.path.join(participant_frames_folder, f"session_{i+1:02d}")
+    
                         video_path = os.path.join(participant_path, video) 
                         cap = cv2.VideoCapture(video_path)
-                        frame_count = 0
+                        frame_count = 1
                         while True:
                             ret, frame = cap.read()
                             if not ret:
                                 break
-                            frame_path = os.path.join(session_folder, f"frame_{frame_count:04d}.jpg")
+                            frame_path = os.path.join(frames_folder, f"participant_{participant}_session_{i+1:02d}_frame_{frame_count:04d}.jpg")
                             cv2.imwrite(frame_path, frame)
                             frame_count += 1
                         cap.release()
                         
-                        labels_path = os.path.join(session_folder, "labels.txt")
+                        labels_path = os.path.join(labels_folder, "labels.txt")
                         with open(labels_path, 'w') as labels_file:
-                            frame_files = os.listdir(session_folder)
+                            frame_files = os.listdir(frames_folder)
                             for frame_index, frame_file in enumerate(frame_files):
-                                label = 1 if frame_index == syncing_pose else 0
-                                labels_file.write(f"{label} {frame_file}\n")
+                                frame_file_path = os.path.abspath(os.path.join(frames_folder, frame_file))
+                                label = 1 if frame_index+1 == syncing_pose else 0
+                                labels_file.write(f"{label} {frame_file_path}\n")
 
 
 if __name__ == "__main__":
