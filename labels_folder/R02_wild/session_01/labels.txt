@@ -153,8 +153,8 @@
 0 /home/jx372/ClapDetector/frame_folder/R02_wild/session_01/participant_R02_wild_session_01_frame_10567.jpg
 0 /home/jx372/ClapDetector/frame_folder/R02_wild/session_01/participant_R02_wild_session_01_frame_11617.jpg
 0 /home/jx372/ClapDetector/frame_folder/R02_wild/session_01/participant_R02_wild_session_01_frame_18849.jpg
-1 /home/jx372/ClapDetector/frame_folder/R02_wild/session_01/participant_R02_wild_session_01_frame_18646.jpg
-0 /home/jx372/ClapDetector/frame_folder/R02_wild/session_01/participant_R02_wild_session_01_frame_5562.jpg
+0 /home/jx372/ClapDetector/frame_folder/R02_wild/session_01/participant_R02_wild_session_01_frame_18646.jpg
+1 /home/jx372/ClapDetector/frame_folder/R02_wild/session_01/participant_R02_wild_session_01_frame_5562.jpg
 0 /home/jx372/ClapDetector/frame_folder/R02_wild/session_01/participant_R02_wild_session_01_frame_0913.jpg
 0 /home/jx372/ClapDetector/frame_folder/R02_wild/session_01/participant_R02_wild_session_01_frame_16795.jpg
 0 /home/jx372/ClapDetector/frame_folder/R02_wild/session_01/participant_R02_wild_session_01_frame_8144.jpg

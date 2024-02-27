@@ -104,7 +104,10 @@ def create_frame_session_folders(data_config):
                                 frame_files = os.listdir(frames_folder)
                                 for frame_index, frame_file in enumerate(frame_files):
                                     frame_file_path = os.path.abspath(os.path.join(frames_folder, frame_file))
-                                    label = 1 if frame_index+1 == syncing_pose else 0
+                                    if participant_type == "pilot_frame_off":
+                                        label = 1 if frame_index+1 == syncing_pose+1 else 0
+                                    else:
+                                        label = 1 if frame_index+1 == syncing_pose else 0
                                     labels_file.write(f"{label} {frame_file_path}\n")
 
 

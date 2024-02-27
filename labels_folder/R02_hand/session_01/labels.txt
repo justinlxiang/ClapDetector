@@ -196,8 +196,8 @@
 0 /home/jx372/ClapDetector/frame_folder/R02_hand/session_01/participant_R02_hand_session_01_frame_0373.jpg
 0 /home/jx372/ClapDetector/frame_folder/R02_hand/session_01/participant_R02_hand_session_01_frame_8282.jpg
 0 /home/jx372/ClapDetector/frame_folder/R02_hand/session_01/participant_R02_hand_session_01_frame_11883.jpg
-1 /home/jx372/ClapDetector/frame_folder/R02_hand/session_01/participant_R02_hand_session_01_frame_4669.jpg
-0 /home/jx372/ClapDetector/frame_folder/R02_hand/session_01/participant_R02_hand_session_01_frame_4009.jpg
+0 /home/jx372/ClapDetector/frame_folder/R02_hand/session_01/participant_R02_hand_session_01_frame_4669.jpg
+1 /home/jx372/ClapDetector/frame_folder/R02_hand/session_01/participant_R02_hand_session_01_frame_4009.jpg
 0 /home/jx372/ClapDetector/frame_folder/R02_hand/session_01/participant_R02_hand_session_01_frame_6260.jpg
 0 /home/jx372/ClapDetector/frame_folder/R02_hand/session_01/participant_R02_hand_session_01_frame_4680.jpg
 0 /home/jx372/ClapDetector/frame_folder/R02_hand/session_01/participant_R02_hand_session_01_frame_12725.jpg
