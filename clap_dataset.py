@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 import os
 import json
 from data_generator import load_frame_data
+import yaml
 
 class ClapDataset(Dataset):
     def __init__(self, frames, labels):
@@ -27,12 +28,13 @@ class ClapDataset(Dataset):
     
 
 class ClapDataModule(pl.LightningDataModule):
-    def __init__(self, data_config, batch_size=32, num_workers=4, split_ratio=0.8):
+    def __init__(self, data_config, batch_size=32, sliding_window_size=3, num_workers=4, split_ratio=0.8):
         super().__init__()
-        self.data_config= data_config,
+        self.data_config= data_config
         self.batch_size = batch_size
         self.num_workers = num_workers
         self.split_ratio = split_ratio
+        self.sliding_window_size = sliding_window_size
 
         self.train_set = None
         self.val_set = None
@@ -75,6 +77,9 @@ class ClapDataModule(pl.LightningDataModule):
 
 if __name__ == "__main__":
     
-    clap_dataset = ClapDataset()
-    clap_data_module = ClapDataModule(dataset=clap_dataset, batch_size=32, num_workers=4, split_ratio=0.8)
+    data_config_file = open("configs/data.yaml", mode="r")
+    data_cfg = yaml.load(data_config_file, Loader=yaml.FullLoader)
+
+    clap_data_module = ClapDataModule(data_config=data_cfg, batch_size=16, num_workers=4, split_ratio=0.8)
+
 

@@ -7,7 +7,7 @@ import torchmetrics
 # from models.resnet.branched_encoder import BranchedResNet
 # from models.resnet.encoder import resnet18
 from models.mobilenet.encoder import mobilenet_v3
-# from models.losses.focal_loss import FocalLoss
+from models.losses.focal_loss import FocalLoss
 # from utils.lightning_hooks import BackwardHook
 # from torchray.attribution.grad_cam import grad_cam
 # from datareader.utils import plot_profiles, label_dict
@@ -53,6 +53,17 @@ class ConvModel(pl.LightningModule):
          # loss function definition
         if self.loss_function == "cross-entropy":
             self.criterion = nn.CrossEntropyLoss()
+        elif self.loss_function == "focal-loss":
+            alpha = np.array(self.output_dim * [1.0])
+
+            if len(self.class_weights) > 0:
+                self.class_weights = list(
+                    filter(lambda x: x < (self.output_dim - 1), self.class_weights)
+                )
+                alpha[self.class_weights] = 2.5
+
+            alpha = alpha / np.sum(alpha)
+            self.criterion = FocalLoss(alpha=alpha.tolist(), gamma=2)
 
         # metric
         self.f1_score = torchmetrics.F1Score(

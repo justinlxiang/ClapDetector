@@ -1,5 +1,7 @@
 data_root_dir: ../../../data2/saif/eating/data/
 
+label_root_dir: labels_folder
+
 random_split: false
 
 num_classes: 2
@@ -14,17 +16,18 @@ participants:
 
 sessions:
   #pilot_study
-  train: &train_session ['session_0101', 'session_0102', 'session_0103', 'session_0104', 'session_0105', 'session_0106', 'session_0107', 'session_0108', 
-  'session_0109', 'session_0110', 'session_0201', 'session_0202', 'session_0203', 'session_0204', 'session_0205', 'session_0206', 'session_0207', 
-  'session_0208', 'session_0209', 'session_0210', 'session_0301', 'session_0302', 'session_0303', 'session_0304', 'session_0305', 'session_0401', 
-  'session_0402', 'session_0403', 'session_0404', 'session_0405', 'session_0501', 'session_0502', 'session_0503', 'session_0504', 'session_0505', 
-  'session_0601', 'session_0602', 'session_0603', 'session_0604', 'session_0605', 'session_0701', 'session_0702', 'session_0703', 'session_0704', 
-  'session_0705', 'session_0801', 'session_0802', 'session_0803', 'session_0804', 'session_0805', 'session_0901', 'session_0902', 'session_0903', 
-  'session_0904', 'session_0905', 'session_1001', 'session_1002', 'session_1003', 'session_1004', 'session_1005', 'session_1101', 'session_1102', 
-  'session_1103', 'session_1104', 'session_1105', 'session_1201', 'session_1202', 'session_1203', 'session_1204', 'session_1205', 'session_1301', 
-  'session_1302', 'session_1303', 'session_1304', 'session_1305']
-  val: 
-  test:
+  # ['session_0101', 'session_0102', 'session_0103', 'session_0104', 'session_0105', 'session_0106', 'session_0107', 'session_0108', 
+  # 'session_0109', 'session_0110', 'session_0201', 'session_0202', 'session_0203', 'session_0204', 'session_0205', 'session_0206', 'session_0207', 
+  # 'session_0208', 'session_0209', 'session_0210', 'session_0301', 'session_0302', 'session_0303', 'session_0304', 'session_0305', 'session_0401', 
+  # 'session_0402', 'session_0403', 'session_0404', 'session_0405', 'session_0501', 'session_0502', 'session_0503', 'session_0504', 'session_0505', 
+  # 'session_0601', 'session_0602', 'session_0603', 'session_0604', 'session_0605', 'session_0701', 'session_0702', 'session_0703', 'session_0704', 
+  # 'session_0705', 'session_0801', 'session_0802', 'session_0803', 'session_0804', 'session_0805', 'session_0901', 'session_0902', 'session_0903', 
+  # 'session_0904', 'session_0905', 'session_1001', 'session_1002', 'session_1003', 'session_1004', 'session_1005', 'session_1101', 'session_1102', 
+  # 'session_1103', 'session_1104', 'session_1105', 'session_1201', 'session_1202', 'session_1203', 'session_1204', 'session_1205', 'session_1301', 
+  # 'session_1302', 'session_1303', 'session_1304', 'session_1305']
+  train: ['R01', 'R02', 'R02-face', 'R02-face2', 'R03', 'R03-face', 'R02_hand_02', 'R02_wild', 'R04-face3', 'R04-face']
+  val: ['R04-face2', 'R02_wild_03', ]
+  test: ['R03-face2', 'R04-hand2']
 
 data_file:
   video: 'reference_video.mp4'

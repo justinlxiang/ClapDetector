@@ -9,6 +9,8 @@ from pytorch_lightning.loggers import WandbLogger
 from cnn_model_builder import ConvModel
 from clap_dataset import ClapDataModule
 
+# cmd: python training.py --model mobilenet_v3 --epochs 30 --batch_size 64 --sliding_window_size 3.0 --gpus 0
+
 if __name__ == "__main__":
     training_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -35,7 +37,7 @@ if __name__ == "__main__":
         f"{training_timestamp}-{args.model}-window{args.sliding_window_size:05.02f}sec"
     )
 
-    wandb_logger = WandbLogger(project="carbs", name=exp_name, log_model=False)
+    wandb_logger = WandbLogger(project="ClapDetector", name=exp_name, log_model=False)
 
     # Load PyTorch Lightning trainer
     checkpoint_callback = ModelCheckpoint(
