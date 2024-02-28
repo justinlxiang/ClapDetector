@@ -31,14 +31,11 @@ def load_frame_data(data_config, set_type):
                 for line in lines:
                     label, image_path = line.strip().split()
                     label = int(label)
-                    image = cv2.imread(image_path)
-                    image = cv2.resize(image, (224, 224))
-                    image = np.array(image, dtype=np.uint8)
-                    images.append(torch.tensor(image, dtype=torch.float))
+                    images.append(image_path)
                     labels.append(label)
 
-    # Convert images to tensor
-    images_data = torch.stack(images)
+    # Convert images paths to tensor
+    images_data = images
     labels_tensor = torch.tensor(labels, dtype=torch.long)
 
     return images_data, labels_tensor

@@ -18,8 +18,12 @@ class ClapDataset(Dataset):
         return len(self.frames)
     
     def __getitem__(self, idx):
-        frame = self.frames[idx]
+        image_path = self.frames[idx]
         label = self.labels[idx]
+
+        frame = cv2.imread(image_path)
+        frame = cv2.resize(frame, (224, 224))
+        frame = np.array(frame, dtype=np.uint8)
 
         frame = torch.tensor(frame, dtype = torch.float)
         label_tensor = torch.tensor(label, dtype=torch.long)
@@ -39,6 +43,14 @@ class ClapDataModule(pl.LightningDataModule):
         self.train_set = None
         self.val_set = None
         self.test_set = None
+
+        self.label_dict = None
+
+    def get_label_dict(self):
+        if self.label_dict is not None:
+            return self.label_dict
+        else:
+            return "Label dictionary NOT found. Call the setup() function of the datamodule first"
 
     def setup(self, stage=None):
         # Load dataset into train, validation, and test sets
@@ -61,6 +73,8 @@ class ClapDataModule(pl.LightningDataModule):
         self.train_set = ClapDataset(train_frames, train_labels)
         self.val_set = ClapDataset(val_frames, val_labels)
         self.test_set = ClapDataset(test_frames, test_labels)
+        
+        self.label_dict = {frame: label.item() for frame, label in zip(train_frames, train_labels)}
 
     def train_dataloader(self):
         return DataLoader(self.train_set, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers)
