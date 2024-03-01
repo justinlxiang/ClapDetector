@@ -5,6 +5,8 @@ import pytorch_lightning as pl
 import yaml
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import WandbLogger
+import torch
+import os
 
 from cnn_model_builder import ConvModel
 from clap_dataset import ClapDataModule
@@ -72,6 +74,14 @@ if __name__ == "__main__":
 
     # Training
     trainer.fit(model, datamodule=clap_datamodule)
+    
+    # Save the model
+    model_weights_dir = "model_weights"
+    if not os.path.exists(model_weights_dir):
+        os.makedirs(model_weights_dir)
+    model_save_path = os.path.join(model_weights_dir, f"{exp_name}.pth")
+    torch.save(model.state_dict(), model_save_path)
+    print(f"Model saved to {model_save_path}")
 
     # Testing
     label_dict = clap_datamodule.get_label_dict()

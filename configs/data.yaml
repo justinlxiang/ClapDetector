@@ -28,13 +28,3 @@ sessions:
   train: ['R01', 'R02', 'R02-face', 'R02-face2', 'R03', 'R03-face', 'R02_hand_02', 'R02_wild', 'R04-face3', 'R04-face']
   val: ['R04-face2', 'R02_wild_03', ]
   test: ['R03-face2', 'R04-hand2']
-
-data_file:
-  video: 'reference_video.mp4'
-  video_frames_folder: 'reference_video_frames'
-  frame_time: 'reference_video_frame_time.txt'
-
-session_config: 'config.json'
-
-video_data_reader:
-  fps: 30
