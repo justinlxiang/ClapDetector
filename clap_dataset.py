@@ -26,9 +26,9 @@ class ClapDataset(Dataset):
         frame = np.array(frame, dtype=np.uint8)
 
         frame = torch.tensor(frame, dtype = torch.float)
-        label_tensor = torch.tensor(label, dtype=torch.long)
+        # label_tensor = label
 
-        return frame, label_tensor
+        return frame, label
     
 
 class ClapDataModule(pl.LightningDataModule):
@@ -59,8 +59,8 @@ class ClapDataModule(pl.LightningDataModule):
         test_frames, test_labels = load_frame_data(self.data_config, 'test')
 
         if self.data_config["random_split"]:
-            all_frames = torch.cat((self.train_set.frames, self.val_set.frames, self.test_set.frames), 0)
-            all_labels = torch.cat((self.train_set.labels, self.val_set.labels, self.test_set.labels), 0)
+            all_frames = train_frames + val_frames + test_frames
+            all_labels = train_labels + val_labels + test_labels
 
             total_samples = len(all_frames)
             train_size = int(total_samples * self.split_ratio)
@@ -74,7 +74,7 @@ class ClapDataModule(pl.LightningDataModule):
         self.val_set = ClapDataset(val_frames, val_labels)
         self.test_set = ClapDataset(test_frames, test_labels)
         
-        self.label_dict = {frame: label.item() for frame, label in zip(train_frames, train_labels)}
+        # self.label_dict = {frame: label() for frame, label in zip(train_frames, train_labels)}
 
     def train_dataloader(self):
         return DataLoader(self.train_set, batch_size=self.batch_size, shuffle=True, num_workers=self.num_workers)
@@ -94,6 +94,6 @@ if __name__ == "__main__":
     data_config_file = open("configs/data.yaml", mode="r")
     data_cfg = yaml.load(data_config_file, Loader=yaml.FullLoader)
 
-    clap_data_module = ClapDataModule(data_config=data_cfg, batch_size=16, num_workers=4, split_ratio=0.8)
+    clap_data_module = ClapDataModule(data_config=data_cfg, batch_size=8, num_workers=4, split_ratio=0.8)
 
 

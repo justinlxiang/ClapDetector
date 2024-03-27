@@ -22,13 +22,11 @@ class ConvModel(pl.LightningModule):
         self,
         model_architecture: str,
         input_channels: int,
-        representation_dim: int,
         output_dim: int,
         learning_rate: float,
         loss_function: str,
         class_weights: list,
         lr_scheduler: str,
-        use_echo_profile: bool = False,
         **kwargs,
     ):
         super().__init__()
@@ -41,7 +39,6 @@ class ConvModel(pl.LightningModule):
 
         self.input_channels = input_channels
         self.output_dim = output_dim
-        self.representation_dim = representation_dim
 
         self.learning_rate = learning_rate
         self.lr_scheduler = lr_scheduler
@@ -69,10 +66,15 @@ class ConvModel(pl.LightningModule):
         self.f1_score = torchmetrics.F1Score(
             task="multiclass", num_classes=self.output_dim, average="macro"
         )
+        self.micro_f1 = torchmetrics.F1Score(
+            task="multiclass", num_classes=self.output_dim, average="micro"
+        )
+        self.accuracy = torchmetrics.Accuracy(task="multiclass", num_classes=self.output_dim)
         
         self.save_hyperparameters()
 
     def forward(self, x):
+        x = x.permute(0, 3, 1, 2)
         x = self.cnn_model(x)
         x = torch.softmax(x, dim=1)
 
@@ -97,9 +99,13 @@ class ConvModel(pl.LightningModule):
 
         loss = self.criterion(y_pred, y)
         f1_score = self.f1_score(y_pred, y)
+        micro_f1 = self.micro_f1(y_pred, y)
+        accuracy = self.accuracy(y_pred, y)
 
         self.log("train_loss", loss)
         self.log("train_f1", f1_score, on_step=False, on_epoch=True)
+        self.log("train_microf1", micro_f1, on_step=False, on_epoch=True)
+        self.log("train_accuracy", accuracy, on_step=False, on_epoch=True)
 
         return loss
 
@@ -109,9 +115,14 @@ class ConvModel(pl.LightningModule):
 
         val_loss = self.criterion(y_pred, y)
         f1_score = self.f1_score(y_pred, y)
+        micro_f1 = self.micro_f1(y_pred, y)
+        accuracy = self.accuracy(y_pred, y)
 
         self.log("val_loss", val_loss)
         self.log("val_f1", f1_score, on_step=False, on_epoch=True)
+        self.log("val_microf1", micro_f1, on_step=False, on_epoch=True)
+        self.log("val_accuracy", accuracy, on_step=False, on_epoch=True)
+        
 
     def test_step(self, batch, batch_idx):
         x, y = batch
@@ -119,9 +130,13 @@ class ConvModel(pl.LightningModule):
 
         test_loss = self.criterion(y_pred, y)
         f1_score = self.f1_score(y_pred, y)
+        micro_f1 = self.micro_f1(y_pred, y)
+        accuracy = self.accuracy(y_pred, y)
 
         self.log("test_loss", test_loss)
         self.log("test_f1", f1_score)
+        self.log("test_microf1", micro_f1, on_step=False, on_epoch=True)
+        self.log("test_accuracy", accuracy, on_step=False, on_epoch=True)
 
     def predict_step(self, batch, batch_idx, dataloader_idx=0):
         x, y = batch
