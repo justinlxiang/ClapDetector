@@ -119,7 +119,7 @@ class ConvModel(pl.LightningModule):
         accuracy = self.accuracy(y_pred, y)
 
         self.log("val_loss", val_loss)
-        self.log("val_f1", f1_score, on_step=False, on_epoch=True)
+        self.log("val_macrof1", f1_score, on_step=False, on_epoch=True)
         self.log("val_microf1", micro_f1, on_step=False, on_epoch=True)
         self.log("val_accuracy", accuracy, on_step=False, on_epoch=True)
         

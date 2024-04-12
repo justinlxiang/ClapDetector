@@ -31,7 +31,7 @@ def load_frame_data(data_config, set_type):
                 lines = f.readlines()
             
             additional_clap_frames = 10
-            sampling_rate = 20 # how many frames per 1 frame saved
+            sampling_rate = 1 # how many frames per 1 frame saved
             count = 1
             for i in range(len(lines)):
                 line = lines[i]

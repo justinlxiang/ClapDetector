@@ -19,14 +19,20 @@ def create_frame_session_folders(data_config):
         for participant in participant_list:
             participant_path = os.path.join(data_root_dir, participant_type, participant)
             config_path = os.path.join(participant_path, "config.json")
-            print(participant)
+
+            if participant_type == "pilot_frame_off":
+                config_path = os.path.join(data_root_dir, "pilot_study", participant, "config.json")
+
             if not os.path.exists(os.path.join(labels_root, participant)):
                 os.mkdir(os.path.join(labels_root, participant))
+
+            if not os.path.exists(os.path.join(frames_root, participant)):
                 os.mkdir(os.path.join(frames_root, participant))
 
             participant_labels_folder = os.path.join(labels_root, participant)
             participant_frames_folder = os.path.join(frames_root, participant)
             if os.path.exists(config_path):
+                print(config_path)
                 with open(config_path, 'r') as f:
                     config = json.load(f)
                     ground_truths = config.get("ground_truth", [])
@@ -60,7 +66,7 @@ def create_frame_session_folders(data_config):
                             
                             labels_path = os.path.join(labels_folder, "labels.txt")
                             with open(labels_path, 'w') as labels_file:
-                                frame_files = os.listdir(frames_folder)
+                                frame_files = sorted(os.listdir(frames_folder))
                                 for frame_index, frame_file in enumerate(frame_files):
                                     frame_file_path = os.path.abspath(os.path.join(frames_folder, frame_file))
                                     if participant_type == "pilot_frame_off":
@@ -68,7 +74,6 @@ def create_frame_session_folders(data_config):
                                     else:
                                         label = 1 if frame_index+1 == syncing_pose else 0
                                     labels_file.write(f"{label} {frame_file_path}\n")
-
 
 
 if __name__ == "__main__":
