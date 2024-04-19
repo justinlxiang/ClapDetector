@@ -31,16 +31,16 @@ def load_frame_data(data_config, set_type):
                 lines = f.readlines()
             
             additional_clap_frames = 10
-            sampling_rate = 1 # how many frames per 1 frame saved
-            count = 1
+            sampling_rate = 10 # how many frames per 1 frame saved
+
             for i in range(len(lines)):
                 line = lines[i]
                 label, image_path = line.strip().split()
                 # print(i, label)
                 label = int(label)
-                if label == 1 or count % sampling_rate == 0:
+                if label == 1 or i % sampling_rate == 0:
                     if label == 1:
-                        for j in range(i, i + 1 + additional_clap_frames):
+                        for j in range(i, i + additional_clap_frames):
                             line = lines[j]
                             label, image_path = line.strip().split()
                             images.append(image_path)
@@ -50,7 +50,6 @@ def load_frame_data(data_config, set_type):
                     images.append(image_path)
                     labels.append(label)
                     non_clap_count += 1
-                count += 1
     
     print(set_type + "Clap Frames: " + str(clap_count))
     print(set_type + "Non Clap Frames: " + str(non_clap_count))

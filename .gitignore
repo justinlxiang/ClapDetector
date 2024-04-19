@@ -1,7 +1,10 @@
+/__pycache__
 /checkpoints
-*.jpg
-
 /wandb
 /annotated_frames
-/__pycache__
 /model_weights
+*.jpg
+
+
+
+

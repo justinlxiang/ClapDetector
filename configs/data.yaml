@@ -16,7 +16,7 @@ participants:
 
 split:
   #pilot_study
-  train: ['R01', 'R02', 'R02-face', 'R02-face2', 'R03',  'R04-face3'] #'R02_hand_02', 'R02_wild',
-  val: ['R04-face2', 'R03-face'] # 'R02_wild_03',
-  test: ['R03-face2', 'R04-face'] # 'R04-hand2'
+  train: ['R01', 'R02', 'R02-face', 'R02-face2', 'R03',  'R04-face3',] # 'R02_hand_02', 'R02_wild']
+  val: ['R04-face2', 'R03-face', ] #'R02_wild_03']
+  test: ['R03-face2', 'R04-face',] #'R04-hand2']
 
