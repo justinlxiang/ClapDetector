@@ -5,3 +5,19 @@ mobilenet_v3:
   loss_function: 'focal-loss' #'cross-entropy' # 
   class_weights: [] # default: [] | [10, 11, 19]
   lr_scheduler:  'multistep_lr' #'cosine_annealing'
+
+resnet18:
+  input_channels: 3
+  output_dim: 2
+  learning_rate: 1.0e-3
+  loss_function: 'focal-loss'
+  class_weights: [] # default: [] | [10, 11, 19]
+  lr_scheduler: 'multisetp_lr' # 'cosine_annealing' OR 'multistep_lr'
+
+resnet34:
+  input_channels: 3
+  output_dim: 2
+  learning_rate: 1.0e-3
+  loss_function: 'focal-loss'
+  class_weights: [] # default: [] | [10, 11, 19]
+  lr_scheduler: 'multisetp_lr' # 'cosine_annealing' OR 'multistep_lr'

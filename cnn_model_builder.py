@@ -5,7 +5,7 @@ import torchmetrics
 
 # from models.classification.cnn_estimator import ResNetClassifier
 # from models.resnet.branched_encoder import BranchedResNet
-# from models.resnet.encoder import resnet18
+from models.resnet.encoder import resnet_encoder
 from models.mobilenet.encoder import mobilenet_v3
 from models.losses.focal_loss import FocalLoss
 # from utils.lightning_hooks import BackwardHook
@@ -43,9 +43,11 @@ class ConvModel(pl.LightningModule):
         self.learning_rate = learning_rate
         self.lr_scheduler = lr_scheduler
 
-        self.cnn_model = mobilenet_v3(
-                    in_channels=self.input_channels, num_classes=self.output_dim
-                )
+        if self.model_architecture == "resnet18" or self.model_architecture == "resnet34" or "resnet" in self.model_architecture:
+            self.cnn_model = resnet_encoder(model_name=self.model_architecture, input_channels=self.input_channels, num_classes=self.output_dim)
+
+        elif self.model_architecture == "mobilenet_v3":
+            self.cnn_model = mobilenet_v3(in_channels=self.input_channels, num_classes=self.output_dim)
         
          # loss function definition
         if self.loss_function == "cross-entropy":
