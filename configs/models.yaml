@@ -12,7 +12,7 @@ resnet18:
   learning_rate: 1.0e-3
   loss_function: 'focal-loss'
   class_weights: [] # default: [] | [10, 11, 19]
-  lr_scheduler: 'multisetp_lr' # 'cosine_annealing' OR 'multistep_lr'
+  lr_scheduler: 'multistep_lr' # 'cosine_annealing' OR 'multistep_lr'
 
 resnet34:
   input_channels: 3
@@ -20,4 +20,4 @@ resnet34:
   learning_rate: 1.0e-3
   loss_function: 'focal-loss'
   class_weights: [] # default: [] | [10, 11, 19]
-  lr_scheduler: 'multisetp_lr' # 'cosine_annealing' OR 'multistep_lr'
+  lr_scheduler: 'multistep_lr' # 'cosine_annealing' OR 'multistep_lr'
